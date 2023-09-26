@@ -56,18 +56,28 @@ input = "x"
 #testtesttest
 #testtesttest
 
+font = pygame.font.Font(None, 100)
+
 
 # Main loop
 running = True
 while running:
-    if(checkWinner()):
+    
+    winner = checkWinner()
+    
+    if(winner):
+        print(checkWinner())
+        font = pygame.font.Font(None, 35)
         window.fill((255, 255, 255))  # Clear the window
-        text = font.render("Winner!", True, (0, 0, 0))
+        text = font.render(f"Winner is {winner}", True, (0, 0, 0))
         text_rect = text.get_rect(center=(width//2, height//2))
         window.blit(text, text_rect)
         pygame.display.flip()
         pygame.time.wait(1900)  # Wait for 3 seconds
+        
+        #revert everything from the start
         coordinate = [[None]*columns for _ in range(rows)]
+        font = pygame.font.Font(None, 100)
     # Event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
