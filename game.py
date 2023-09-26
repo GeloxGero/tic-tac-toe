@@ -2,8 +2,22 @@ import pygame
 import numpy as np
 
 def checkWinner():
-    
-    
+    # Check rows
+    for row in coordinate:
+        if row.count(row[0]) == len(row) and row[0] is not None:
+            return row[0]
+    # Check columns
+    for col in range(len(coordinate[0])):
+        check = []
+        for row in coordinate:
+            check.append(row[col])
+        if check.count(check[0]) == len(check) and check[0] is not None:
+            return check[0]
+    # Check diagonals
+    if coordinate[0][0] == coordinate[1][1] == coordinate[2][2] and coordinate[0][0] is not None:
+        return coordinate[0][0]
+    if coordinate[0][2] == coordinate[1][1] == coordinate[2][0] and coordinate[0][2] is not None:
+        return coordinate[0][2]
     return
 
 
@@ -41,6 +55,14 @@ input = "x"
 # Main loop
 running = True
 while running:
+    if(checkWinner()):
+        window.fill((255, 255, 255))  # Clear the window
+        text = font.render("Winner!", True, (0, 0, 0))
+        text_rect = text.get_rect(center=(width//2, height//2))
+        window.blit(text, text_rect)
+        pygame.display.flip()
+        pygame.time.wait(1900)  # Wait for 3 seconds
+        coordinate = [[None]*columns for _ in range(rows)]
     # Event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -64,7 +86,7 @@ while running:
     for i in range(rows):
         for j in range(columns):
             if squares[i][j].collidepoint(pygame.mouse.get_pos()) and coordinate[i][j] == None:
-                pygame.draw.rect(window, (0, 0, 0, 0.5), squares[i][j].inflate(5,5))  # Inflate square by 50 pixels on hover
+                pygame.draw.rect(window, (200, 200, 200, 120), squares[i][j].inflate(5,5))  # Inflate square by 50 pixels on hover
             else:
                 pygame.draw.rect(window, (100,100,100), squares[i][j], 1)  # Draw border with width of 1 pixel
 
